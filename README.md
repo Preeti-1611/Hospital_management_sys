@@ -130,6 +130,10 @@ The system automatically creates a default admin account:
 - `GET /login` - Login page
 - `POST /login` - Login authentication
 - `GET /logout` - Logout (requires login)
+## Screenshots
+<img width="1046" height="607" alt="Screenshot 2025-07-19 154157 - Copy" src="https://github.com/user-attachments/assets/e61a24a1-1121-4ead-9cab-dfaac710e829" />
+ <img width="1771" height="888" alt="Screenshot 2024-07-24 151757" src="https://github.com/user-attachments/assets/94dbd2b8-ffd2-412d-bf71-e7ba0a3c68d3" />
+
 
 
 ### Common Issues
