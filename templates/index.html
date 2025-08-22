@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hospital Management System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(120deg, #e0f7fa 0%, #fefefe 100%);
+      min-height: 100vh;
+    }
+
+    nav {
+      background: #007B8A;
+      color: #fff;
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      width: 100%;
+      box-sizing: border-box;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+
+    nav ul li a:hover {
+      color: #caf0f8;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-info span {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .logout-btn {
+      background: #dc3545;
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: #c82333;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 140px 8vw 60px;
+      min-height: 80vh;
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero-content h1 {
+      font-size: 2.8rem;
+      color: #007B8A;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .cta-btn {
+      background: #007B8A;
+      color: #fff;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .cta-btn:hover {
+      background: #005f6b;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .hero-image img {
+      max-width: 350px;
+      width: 100%;
+      height: auto;
+      opacity: 0.92;
+      filter: drop-shadow(0 8px 32px rgba(0,0,0,0.15));
+      transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 120px 4vw 40px;
+      }
+
+      .hero-image {
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      .hero-image img {
+        max-width: 300px;
+      }
+
+      nav {
+        padding: 1rem;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .user-info {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="logo">👩‍⚕️ NMS</span>
+    <ul>
+      <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+      <li><a href="{{ url_for('patient') }}">Patients</a></li>
+      <li><a href="{{ url_for('doctor') }}">Doctors</a></li>
+      <li><a href="{{ url_for('nurse') }}">Nurses</a></li>
+      <li><a href="room.html">Rooms</a></li>
+      <li><a href="billing.html">Billing</a></li>
+      <li><a href="records.html">Records</a></li>
+    </ul>
+    <div class="user-info">
+      {% if current_user.is_authenticated %}
+        <span>Welcome, {{ current_user.username }}!</span>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}" style="background: #fff; color: #007B8A; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Login</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Nursing Management System</h1>
+      <p>
+        Streamline your nursing operations and enhance patient care with our comprehensive
+        Nursing Management System. Designed to make healthcare management efficient and effective.
+      </p>
+      <a href="{{ url_for('appoi') }}" class="cta-btn">📅 Book an Appointment</a>
+    </div>
+    <div class="hero-image">
+      <img src="https://cynamed.com/wp-content/uploads/2021/07/Untitled-design-8.jpg" alt="Nursing Staff" />
+    </div>
+  </section>
+</body>
+</html>

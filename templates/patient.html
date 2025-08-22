@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Patient Records | Nursing Management</title>
+  <style>
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    nav {
+      background-color: #007bff;
+      padding: 1rem;
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 1rem 0;
+      color: #333;
+    }
+
+    .container {
+      width: 90%;
+      margin: auto;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      margin: 1rem 0;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+    }
+
+    .form-section {
+      display: none;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .patient-table {
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+
+
+
+
+<!-- NAVBAR START -->
+<nav style="background-color:#007B8A; padding: 1rem;">
+  <ul style="list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 20px;">
+    <li><a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">Home</a></li>
+    <li><a href="patient.html" style="color: white; text-decoration: none; font-weight: bold;">Patients</a></li>
+    <li><a href="doctor.html" style="color: white; text-decoration: none; font-weight: bold;">Doctors</a></li>
+    <li><a href="nurse.html" style="color: white; text-decoration: none; font-weight: bold;">Nurses</a></li>
+    <li><a href="room.html" style="color: white; text-decoration: none; font-weight: bold;">Rooms</a></li>
+    <li><a href="billing.html" style="color: white; text-decoration: none; font-weight: bold;">Billing</a></li>
+    <li><a href="records.html" style="color: white; text-decoration: none; font-weight: bold;">Records</a></li>
+  </ul>
+</nav>
+<!-- NAVBAR END -->
+
+<body>
+
+  <nav>
+    <h2>🏥 Nursing Management System</h2>
+  </nav>
+
+
+    <div style="flex: 1; padding: 40px;">
+      <h1>Patients List</h1>
+      <button class="btn" onclick="toggleForm()" style="margin-bottom: 20px;">➕ Add New Patient</button>
+      <div class="form-section" id="patientForm" style="display:none;">
+        <div class="form-group">
+          <label>Patient ID:</label>
+          <input type="text" id="patient_ID">
+        </div>
+        <div class="form-group">
+          <label>Full Name:</label>
+          <input type="text" id="name">
+        </div>
+        <div class="form-group">
+          <label>Sex:</label>
+          <input type="text" id="sex">
+        </div>
+        <div class="form-group">
+          <label>Age:</label>
+          <input type="number" id="age">
+        </div>
+        <div class="form-group">
+          <label>DOB:</label>
+          <input type="date" id="dob">
+        </div>
+        <div class="form-group">
+          <label>Mobile No:</label>
+          <input type="text" id="mobile">
+        </div>
+        <div class="form-group">
+          <label>Address:</label>
+          <textarea id="address"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Disease:</label>
+          <input type="text" id="disease">
+        </div>
+        <div class="form-group">
+          <label>Date of Admission:</label>
+          <input type="date" id="doa">
+        </div>
+        <button class="btn" onclick="addPatient()">Save</button>
+      </div>
+      <div id="successMsg" style="display:none; color: #fff; background: #28a745; padding: 10px 0; text-align: center; border-radius: 6px; margin-bottom: 20px;">
+        Patient added successfully!
+      </div>
+      <div class="patient-table">
+        <table id="patientTable">
+          <thead>
+            <tr>
+              <th>Patient_ID</th>
+              <th>Name</th>
+              <th>Sex</th>
+              <th>Age</th>
+              <th>DOB</th>
+              <th>Mobile</th>
+              <th>Address</th>
+              <th>Disease</th>
+              <th>Join Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data will be loaded from backend -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleForm() {
+      const form = document.getElementById('patientForm');
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d)) return dateStr;
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return `${mm}/${dd}/${yyyy}`;
+    }
+
+    function loadPatients() {
+      fetch('/api/patients')
+        .then(response => response.json())
+        .then(patients => {
+          const table = document.getElementById("patientTable").getElementsByTagName("tbody")[0];
+          table.innerHTML = ""; // Clear existing rows
+          if (patients.length === 0) {
+            const row = table.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 9;
+            cell.style.textAlign = 'center';
+            cell.textContent = 'No patients found.';
+          } else {
+            patients.forEach(patient => {
+              const newRow = table.insertRow();
+              newRow.innerHTML = `
+                <td>${patient.patient_id}</td>
+                <td>${patient.name}</td>
+                <td>${patient.sex}</td>
+                <td>${patient.age}</td>
+                <td>${formatDate(patient.dob)}</td>
+                <td>${patient.mobile}</td>
+                <td>${patient.address}</td>
+                <td>${patient.disease || ''}</td>
+                <td>${formatDate(patient.join_date)}</td>
+              `;
+            });
+          }
+        });
+    }
+
+    function addPatient() {
+      const patient_ID = document.getElementById("patient_ID").value;
+      const name = document.getElementById("name").value;
+      const sex = document.getElementById("sex").value;
+      const age = document.getElementById("age").value;
+      const dob = document.getElementById("dob").value;
+      const mobile = document.getElementById("mobile").value;
+      const address = document.getElementById("address").value;
+      const disease = document.getElementById("disease").value;
+      const join_date = document.getElementById("doa").value;
+
+      // Validate required fields
+      if (!patient_ID || !name || !sex || !age || !dob || !mobile || !address || !disease || !join_date) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      fetch('/api/patients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          patient_id: patient_ID,
+          name: name,
+          sex: sex,
+          age: age,
+          dob: dob,
+          mobile: mobile,
+          address: address,
+          disease: disease,
+          join_date: join_date
+        })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to add patient");
+        return response.json();
+      })
+      .then(data => {
+        // Show success message instead of alert
+        const msgDiv = document.getElementById("successMsg");
+        msgDiv.style.display = "block";
+        msgDiv.textContent = "Patient added successfully!";
+        setTimeout(() => { msgDiv.style.display = "none"; }, 2500);
+
+        loadPatients(); // Refresh the table
+        // Clear form fields
+        document.getElementById("patient_ID").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("sex").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("dob").value = "";
+        document.getElementById("mobile").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("disease").value = "";
+        document.getElementById("doa").value = "";
+        toggleForm();
+      })
+      .catch(error => {
+        alert('Error adding patient');
+        console.error(error);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      loadPatients();
+    });
+  </script>
+
+</body>
+</html>

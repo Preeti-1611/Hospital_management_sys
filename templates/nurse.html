@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nurse Shift Management</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f9ff;
+    }
+
+    nav {
+      background-color: #007B8A;
+      padding: 1rem;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+      height: calc(100vh - 60px);
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .dropdown-btn {
+      background-color: #00bfff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #ffffff;
+      color: black;
+      width: 100%;
+      z-index: 1;
+      border: 1px solid #ccc;
+    }
+
+    .dropdown-content button {
+      width: 100%;
+      padding: 10px;
+      text-align: left;
+      border: none;
+      background: white;
+      cursor: pointer;
+    }
+
+    .dropdown-content button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .main h2 {
+      color: #003366;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
+    }
+
+    table, th, td {
+      border: 1px solid #cfe2ff;
+    }
+
+    th {
+      background-color: #e6f0ff;
+      padding: 10px;
+      color: #003366;
+    }
+
+    td {
+      padding: 10px;
+      color: #333;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9fcff;
+    }
+
+    tr:hover {
+      background-color: #e0f7ff;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .edit-btn {
+      background-color: #7fd87a;
+      color: white;
+    }
+
+    .save-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .delete-btn {
+      background-color: #1a41d0;
+      color: white;
+    }
+
+    input[type="text"] {
+      width: 100px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="patient.html">Patients</a></li>
+      <li><a href="doctor.html">Doctors</a></li>
+      <li><a href="nurse.html">Nurses</a></li>
+      <li><a href="room.html">Rooms</a></li>
+      <li><a href="billing.html">Billing</a></li>
+      <li><a href="records.html">Records</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Nurse Shift</h2>
+      <div class="dropdown">
+        <button class="dropdown-btn">Select Shift</button>
+        <div class="dropdown-content">
+          <button onclick="filterShift('All')">All</button>
+          <button onclick="filterShift('Morning')">Morning</button>
+          <button onclick="filterShift('Afternoon')">Afternoon</button>
+          <button onclick="filterShift('Night')">Night</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <h2>List of Nurses</h2>
+      <table id="nurseTable">
+        <thead>
+          <tr>
+            <th>Nurse ID</th><th>Name</th><th>Gender</th><th>Email</th><th>Mobile</th>
+            <th>Date of Join</th><th>Salary</th><th>Address</th><th>Shift</th><th>patient_ID</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-shift="Morning">
+            <td>N001</td><td>Priya Sharma</td><td>Female</td><td>priya@nurse.com</td><td>9876543210</td>
+            <td>2023-01-15</td><td>35000</td><td>Pune, MH</td><td>Morning</td><td>P101</td>
+            <td>
+              <button class="action-btn edit-btn" onclick="editRow(this)">Edit</button>
+              <button class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>
+            </td>
+          </tr>
+          <tr data-shift="Afternoon">
+            <td>N002</td><td>Ravi Kumar</td><td>Male</td><td>ravi@nurse.com</td><td>9876500001</td>
+            <td>2023-03-01</td><td>36000</td><td>Bangalore, KA</td><td>Afternoon</td><td>P102</td>
+            <td>
+              <button class="action-btn edit-btn" onclick="editRow(this)">Edit</button>
+              <button class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>
+            </td>
+          </tr>
+          <tr data-shift="Night">
+            <td>N003</td><td>Anjali Singh</td><td>Female</td><td>anjali@nurse.com</td><td>9876599999</td>
+            <td>2022-11-10</td><td>37000</td><td>Mumbai, MH</td><td>Night</td><td>P103</td>
+            <td>
+              <button class="action-btn edit-btn" onclick="editRow(this)">Edit</button>
+              <button class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function filterShift(shift) {
+      const rows = document.querySelectorAll('#nurseTable tbody tr');
+      rows.forEach(row => {
+        row.style.display = (shift === 'All' || row.dataset.shift === shift) ? '' : 'none';
+      });
+    }
+
+    function editRow(btn) {
+      const row = btn.parentElement.parentElement;
+      const tds = row.querySelectorAll('td');
+      for (let i = 0; i < tds.length - 1; i++) {
+        let text = tds[i].innerText;
+        tds[i].innerHTML = `<input type="text" value="${text}">`;
+      }
+      btn.textContent = 'Save';
+      btn.className = 'action-btn save-btn';
+      btn.setAttribute('onclick', 'saveRow(this)');
+    }
+
+    function saveRow(btn) {
+      const row = btn.parentElement.parentElement;
+      const inputs = row.querySelectorAll('input');
+      inputs.forEach(input => {
+        const td = input.parentElement;
+        td.textContent = input.value;
+      });
+      btn.textContent = 'Edit';
+      btn.className = 'action-btn edit-btn';
+      btn.setAttribute('onclick', 'editRow(this)');
+    }
+
+    function deleteRow(btn) {
+      const row = btn.parentElement.parentElement;
+      row.remove();
+    }
+  </script>
+</body>
+</html>

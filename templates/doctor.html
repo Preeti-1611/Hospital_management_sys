@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctor List - Nursing Management System</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f7f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007B8A;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .add-btn {
+      display: block;
+      margin: 1rem auto;
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .add-btn:hover {
+      background: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #007B8A;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e0f7fa;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      color: #006064;
+    }
+  </style>
+</head>
+
+
+
+<!-- NAVBAR START -->
+<nav style="background-color:#007B8A; padding: 1rem;">
+  <ul style="list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 20px;">
+    <li><a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">Home</a></li>
+    <li><a href="patient.html" style="color: white; text-decoration: none; font-weight: bold;">Patients</a></li>
+    <li><a href="doctor.html" style="color: white; text-decoration: none; font-weight: bold;">Doctors</a></li>
+    <li><a href="nurse.html" style="color: white; text-decoration: none; font-weight: bold;">Nurses</a></li>
+    <li><a href="room.html" style="color: white; text-decoration: none; font-weight: bold;">Rooms</a></li>
+    <li><a href="billing.html" style="color: white; text-decoration: none; font-weight: bold;">Billing</a></li>
+    <li><a href="records.html" style="color: white; text-decoration: none; font-weight: bold;">Records</a></li>
+  </ul>
+</nav>
+<!-- NAVBAR END -->
+
+<body>
+
+  <header>
+    <h1>👨‍⚕️ Doctor Directory - Nursing Management System</h1>
+  </header>
+
+  <div class="container">
+    <h2>List of Doctors</h2>
+
+    <button class="add-btn" onclick="alert('Add Doctor form coming soon!')">➕ Add New Doctor</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>D-ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Department</th>
+          <th>Qualification</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>D101</td>
+          <td>Dr. Asha Mehta</td>
+          <td>45</td>
+          <td><span class="tag">Cardiology</span></td>
+          <td>MBBS, MD</td>
+        </tr>
+        <tr>
+          <td>D102</td>
+          <td>Dr. Ramesh Singh</td>
+          <td>50</td>
+          <td><span class="tag">Neurology</span></td>
+          <td>MBBS, DM</td>
+        </tr>
+        <tr>
+          <td>D103</td>
+          <td>Dr. Neha Patil</td>
+          <td>38</td>
+          <td><span class="tag">Pediatrics</span></td>
+          <td>MBBS, DCH</td>
+        </tr>
+        <tr>
+          <td>D104</td>
+          <td>Dr. Imran Khan</td>
+          <td>42</td>
+          <td><span class="tag">Orthopedics</span></td>
+          <td>MBBS, MS</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

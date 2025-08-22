@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nursing Appointment Booking</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: linear-gradient(to right, #e0f7fa, #fefefe);
+    }
+
+    nav {
+      background-color: #007B8A;
+      padding: 1rem 0;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      flex-grow: 1;
+    }
+
+    .form-section {
+      flex: 1;
+      padding: 40px;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-right: 1px solid #ddd;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+      animation: slideInLeft 0.6s ease;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .form-section h2 {
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 80%;
+      padding: 10px;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #0077b6;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0, 119, 182, 0.3);
+    }
+
+    .submit-btn {
+      background-color: #0077b6;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #0e77ac;
+    }
+
+    .image-section {
+      flex: 1;
+      background: linear-gradient(to top right, #caf0f8, #3ebad2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 70px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .carousel {
+      width: 90%;
+      max-width: 600px;
+      height: 500px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .carousel img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      opacity: 0;
+      transition: all 0.8s ease;
+      object-fit: cover;
+    }
+
+    .carousel img.active {
+      left: 0;
+      opacity: 1;
+    }
+
+    .project-info {
+      text-align: center;
+      max-width: 450px;
+    }
+
+    .project-info h3 {
+      color: #03045e;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .project-info p {
+      font-size: 16px;
+      color: #333;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .form-section, .image-section {
+        max-width: 100%;
+        border-right: none;
+      }
+
+      .carousel {
+        height: 200px;
+      }
+    }    /* Add new interactive styles */
+    .form-group input:invalid,
+    .form-group select:invalid,
+    .form-group textarea:invalid {
+      border-color: #ff4444;
+    }
+
+    .form-feedback {
+      font-size: 14px;
+      margin-top: 4px;
+      color: #ff4444;
+      display: none;
+    }
+
+    .loading {
+      position: relative;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: translateY(-50%) rotate(360deg); }
+    }
+
+    .success-message {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .form-group input:focus ~ label,
+    .form-group select:focus ~ label,
+    .form-group textarea:focus ~ label {
+      color: #0077b6;
+      transform: translateY(-25px) scale(0.8);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ NAVBAR (Now properly inside body) -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="patient.html">Patients</a></li>
+      <li><a href="doctor.html">Doctors</a></li>
+      <li><a href="nurse.html">Nurses</a></li>
+      <li><a href="room.html">Rooms</a></li>
+      <li><a href="billing.html">Billing</a></li>
+      <li><a href="records.html">Records</a></li>
+    </ul>
+  </nav>
+
+  <!-- ✅ Main Container -->  <div class="container">
+    <div class="form-section">
+      <div class="success-message">Appointment booked successfully!</div>
+      <h2>Book an Appointment</h2>
+      <form action="/submit_appointment" method="POST" id="appointmentForm">
+        <div class="form-group">
+          <label for="name">Patient Name:</label>
+          <input type="text" id="name" name="name" required pattern="[A-Za-z ]{2,50}" />
+          <div class="form-feedback">Please enter a valid name (2-50 characters)</div>
+        </div>
+
+        <div class="form-group">
+          <label for="sex">Sex:</label>
+          <select id="sex" name="sex" required>
+            <option value="">--Select--</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age:</label>
+          <input type="number" id="age" name="age" required />
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" required />
+        </div>
+
+        <div class="form-group">
+          <label for="mobile">Mobile No:</label>
+          <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required />
+          <div class="form-feedback">Please enter a valid 10-digit mobile number</div>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <textarea id="address" name="address" rows="3" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Appointment</button>
+      </form>
+    </div>
+
+    <!-- Image & Info Section -->
+    <div class="image-section">
+      <div class="carousel">
+        <img src="https://thumbs.dreamstime.com/b/friendly-cartoon-nurse-scrubs-holding-clipboard-bright-modern-hospital-setting-colorful-detailed-illustration-standing-354814219.jpg" class="active" />
+        <img src="https://media.istockphoto.com/id/1217449304/vector/nurse-characters-group.jpg?s=612x612&w=0&k=20&c=7c-90Lk-0YNC35I4emFnc14d6jLIJXi2J9OqWa56ZzE=" />
+        <img src="https://thumbs.dreamstime.com/b/nurse-woman-patient-standing-side-bed-hospital-room-visiting-sick-receiving-intravenous-therapy-treatment-34278255.jpg" />
+      </div>
+      <div class="project-info">
+        <h3>Nursing Management System</h3>
+        <p>This system streamlines appointments, manages patient data, and ensures efficient nursing care. Empowering nurses and doctors to deliver timely, well-coordinated health services to every patient.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auto-sliding image carousel with fade effect
+    const images = document.querySelectorAll('.carousel img');
+    let index = 0;
+
+    function changeImage() {
+      images[index].style.opacity = '0';
+      images[index].classList.remove('active');
+      index = (index + 1) % images.length;
+      images[index].classList.add('active');
+      setTimeout(() => {
+        images[index].style.opacity = '1';
+      }, 50);
+    }
+
+    setInterval(changeImage, 3000);
+
+    // Form validation and submission
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.querySelector('#appointmentForm');
+      const submitBtn = form.querySelector('.submit-btn');
+      const successMessage = document.querySelector('.success-message');
+      const inputs = form.querySelectorAll('input, select, textarea');
+
+      // Show validation messages on input
+      inputs.forEach(input => {
+        input.addEventListener('input', function() {
+          const feedback = this.nextElementSibling;
+          if (feedback && feedback.classList.contains('form-feedback')) {
+            feedback.style.display = this.validity.valid ? 'none' : 'block';
+          }
+        });
+      });
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Check form validity
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        submitBtn.classList.add('loading');
+        submitBtn.textContent = 'Submitting...';
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch('/submit_appointment', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (!response.ok) throw new Error('Submission failed');
+
+          // Show success message
+          successMessage.style.display = 'block';
+          form.reset();
+
+          // Redirect after delay
+          setTimeout(() => {
+            window.location.href = '/appointment_list.html';
+          }, 2000);
+
+        } catch (err) {
+          alert('Error submitting appointment. Please try again.');
+        } finally {
+          submitBtn.classList.remove('loading');
+          submitBtn.textContent = 'Submit Appointment';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

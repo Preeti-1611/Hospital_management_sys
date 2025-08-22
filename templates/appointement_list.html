@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Appointment List</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f9f9f9; }
+    h1 { color: #0077b6; text-align: center; }
+    table { width: 90%; margin: 20px auto; border-collapse: collapse; background: #fff; }
+    th, td { padding: 10px; border: 1px solid #ccc; }
+    th { background: #0077b6; color: #fff; }
+    .success { color: green; text-align: center; font-size: 1.2em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+    <nav style="background-color:#007B8A; padding: 1rem;">
+      <ul style="list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 20px;">
+        <li><a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">Home</a></li>
+        <li><a href="patient.html" style="color: white; text-decoration: none; font-weight: bold;">Patients</a></li>
+        <li><a href="doctor.html" style="color: white; text-decoration: none; font-weight: bold;">Doctors</a></li>
+        <li><a href="nurse.html" style="color: white; text-decoration: none; font-weight: bold;">Nurses</a></li>
+        <li><a href="room.html" style="color: white; text-decoration: none; font-weight: bold;">Rooms</a></li>
+        <li><a href="billing.html" style="color: white; text-decoration: none; font-weight: bold;">Billing</a></li>
+        <li><a href="records.html" style="color: white; text-decoration: none; font-weight: bold;">Records</a></li>
+      </ul>
+    </nav>
+
+
+   
+  <h1>Appointment List</h1>
+  <div class="success">Appointment submitted successfully!</div>
+  <table id="appointmentTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Sex</th>
+        <th>Age</th>
+        <th>DOB</th>
+        <th>Mobile</th>
+        <th>Address</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Appointments will be loaded here -->
+    </tbody>
+  </table>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      fetch('/api/appointments')
+        .then(response => response.json())
+        .then(appointments => {
+          const table = document.getElementById("appointmentTable").getElementsByTagName("tbody")[0];
+          table.innerHTML = "";
+          appointments.forEach(app => {
+            const row = table.insertRow();
+            row.innerHTML = `
+              <td>${app.appointment_id}</td>
+              <td>${app.name}</td>
+              <td>${app.sex}</td>
+              <td>${app.age}</td>
+              <td>${app.dob ? app.dob.substring(0,10) : ""}</td>
+              <td>${app.mobile}</td>
+              <td>${app.address}</td>
+              <td>${app.created_at ? app.created_at.replace('T',' ').substring(0,19) : ""}</td>
+            `;
+          });
+        });
+    });
+  </script>
+</body>
+</html>

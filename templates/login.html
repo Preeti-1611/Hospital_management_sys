@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Nursing Management System</title>
+  <style>
+    body {
+      background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      width: 350px;
+      text-align: center;
+    }
+    .login-container h2 {
+      margin-bottom: 24px;
+      color: #007B8A;
+    }
+    .login-container input {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #b2bec3;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background: #007B8A;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: background 0.2s;
+    }
+    .login-container button:hover {
+      background: #005f6b;
+    }
+    .error-message {
+      color: #e74c3c;
+      margin-top: 10px;
+      display: none;
+    }
+    .success-message {
+      color: #27ae60;
+      margin-top: 10px;
+      display: none;
+    }
+    .info-message {
+      color: #3498db;
+      margin-top: 10px;
+      display: none;
+    }
+    .demo-credentials {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #6c757d;
+    }
+    .demo-credentials strong {
+      color: #007B8A;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>👩‍⚕️ NMS Login</h2>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="{{ category }}-message" style="display: block;">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <form method="POST" action="{{ url_for('login') }}">
+      <input type="text" name="username" placeholder="Username" autocomplete="off" required />
+      <input type="password" name="password" placeholder="Password" autocomplete="off" required />
+      <button type="submit">Login</button>
+    </form>
+    
+    <div class="demo-credentials">
+      <strong>Demo Credentials:</strong><br>
+      Username: <strong>admin</strong><br>
+      Password: <strong>admin123</strong>
+    </div>
+  </div>
+</body>
+</html>
